@@ -41,6 +41,8 @@ function GetHeader() {
     TheBand = TheBand.replace(" Setlist", "");
     TheVenue = TheVenue.replace("at ", "");
     TheVenue = TheVenue.replace(", USA", "");
+    TheBand = TheBand.trim();
+    TheVenue = TheVenue.trim();
 }
 
 function GetDetail(WithSets) {
