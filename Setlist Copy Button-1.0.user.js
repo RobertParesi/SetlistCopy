@@ -106,7 +106,7 @@ function CustomSetClipboard(WithSets,inDesc) {
                 });
                 const newButton2 = document.createElement('button');
                 newButton2.textContent = ' Set Copy ';
-                newButton2.style = buttonStyle;
+                newButton2.style = buttonStyle + "padding-left: 10px; padding-right: 8px;"
                 c_button.after(newButton2);
                 newButton2.addEventListener('click', () => {
                     CustomSetClipboard(1,'Sets');
