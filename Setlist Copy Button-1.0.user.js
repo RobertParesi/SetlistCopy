@@ -22,6 +22,7 @@ function GetValue(InTag) {
     let result = "";
     let li = document.querySelector(InTag);
     if(li != null) { result = li.innerText.trim() };
+
     return result;
 }
 
@@ -66,12 +67,12 @@ function GetDetail(WithSets) {
         }
         if(classDesc.includes("song") == true ) {
             let nindex = li.innerText.indexOf("\n");
-            let SongName = li.innerText.slice(0,nindex);
+            let SongName = li.innerText.slice(0,nindex) ;
             if(WithSets == 1) {
                 FullString = FullString + " • " + SongName + CRLF;
                 count+=1;
             } else {
-                FullString = FullString + TheDate + "," + TheBand + "," + TheVenue + "," + SongName + "," + section + CRLF;
+                FullString = FullString + TheDate + ',' + TheBand + ',' + TheVenue + ',"' + SongName + '",' + section + CRLF;
                 count+=1;
             }
         }
@@ -105,7 +106,7 @@ function CustomSetClipboard(WithSets,inDesc) {
                     CustomSetClipboard(0,'Songs');
                 });
                 const newButton2 = document.createElement('button');
-                newButton2.textContent = ' Set Copy ';
+                newButton2.textContent = 'Set Copy';
                 newButton2.style = buttonStyle + "padding-left: 10px; padding-right: 8px;"
                 c_button.after(newButton2);
                 newButton2.addEventListener('click', () => {
