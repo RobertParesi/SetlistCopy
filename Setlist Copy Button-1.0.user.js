@@ -97,6 +97,8 @@ function ImportantParts(InPart) {
         if(active == true) {
             WorkString = WorkString + InPart[i];
             if(InPart[i] == ')') {
+                WorkString = WorkString.trim()
+                if(WorkString == "(>)") { WorkString = " >"};
                 let CheckString = WorkString.toLowerCase();
                 if (CheckString.includes("cover") == false) {
                     FinalString = FinalString + WorkString + " ";
