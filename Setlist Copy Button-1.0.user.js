@@ -55,7 +55,6 @@ function GetDetail(WithSets) {
         FullString = TheDate + " " + TheVenue + CRLF + CRLF;
     }
 
-
     let lis=document.querySelectorAll('li.setlistParts');
     if(lis == null) {
         alert('Could not find setlistParts!');
