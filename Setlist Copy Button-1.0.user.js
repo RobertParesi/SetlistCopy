@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Setlist FM Clipboard
 // @namespace    http://tampermonkey.net/
-// @version      2024-07-09
+// @version      2025-02-13
 // @description  Put Setlist Information to Clipboard
 // @author       Jerry Garcia
 // @match        https://www.setlist.fm/setlist/*
@@ -11,32 +11,25 @@
 
 var Init = false;
 var CRLF = String.fromCharCode(13,10);
-let FullString = "";
-let TheDate = "";
-let TheBand = "";
-let TheVenue = "";
-let section = "";
+let FullString = "",TheDate = "",TheDate2 = "";
+let TheBand = "",TheVenue = "",section = "";
 
 function GetValue(InTag) {
 
-    let result = "";
     let li = document.querySelector(InTag);
-    if(li != null) { result = li.innerText.trim() };
-
-    return result;
+    if(li != null) { return li.innerText.trim() };
+    return '';
 }
 
 function GetHeader() {
 
     let count = 0;
-
-    let mm = GetValue('.month');
-    let dd = GetValue('.day');
-    let yy = GetValue('.year');
-    TheDate = dd + "-" + mm + "-" + yy;
-
+    let mm = GetValue('.month')
+    let dd = GetValue('.day'), yy = GetValue('.year');
     let li = document.querySelector(".setlistHeadline");
     let myArray = li.textContent.split("\n",4);
+
+    TheDate = dd + "-" + mm + "-" + yy;TheDate2 = yy + '-' + mm + '-' + dd;
     TheBand = myArray[2];
     TheVenue = myArray[3];
     TheBand = TheBand.replace(" Setlist", "");
@@ -51,9 +44,7 @@ function GetDetail(WithSets) {
     let count = 0;
     section = "";
 
-    if(WithSets == 1) {
-        FullString = TheDate + " " + TheVenue + CRLF + CRLF;
-    }
+    if(WithSets == 1) { FullString = TheDate2 + " " + TheBand + CRLF + TheVenue + CRLF + CRLF;}
 
     let lis=document.querySelectorAll('li.setlistParts');
     if(lis == null) {
@@ -74,7 +65,7 @@ function GetDetail(WithSets) {
             }
             if(classDesc.includes("song") == true ) {
                 let nindex = li.innerText.indexOf("\n");
-                let SongName = li.innerText.slice(0,nindex) ;
+                let SongName = li.innerText.slice(0,nindex);
                 let InfoPart = li.innerText.slice(nindex);
                 InfoPart = InfoPart.replaceAll("Play Video","");
                 InfoPart = ImportantParts(InfoPart);
@@ -101,7 +92,7 @@ function ImportantParts(InPart) {
         if(active == true) {
             WorkString = WorkString + InPart[i];
             if(InPart[i] == ')') {
-                WorkString = WorkString.trim()
+                WorkString = WorkString.trim();
                 if(WorkString == "(>)") { WorkString = " >"};
                 let CheckString = WorkString.toLowerCase();
                 if (CheckString.includes("cover") == false) {
@@ -114,7 +105,6 @@ function ImportantParts(InPart) {
     }
     return FinalString;
 }
-
 
 function CustomSetClipboard(WithSets,inDesc) {
 
