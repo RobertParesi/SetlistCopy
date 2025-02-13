@@ -7,5 +7,5 @@ Add Copy buttons to Setlist.fm
 
 
 **Setlist Copy buttons for Setlist.fm**
-![Settings](/SetelistCopy.png)
+![Settings](/SetListCopy.png)
 
