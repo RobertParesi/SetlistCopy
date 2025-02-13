@@ -5,3 +5,7 @@ Add Copy buttons to Setlist.fm
 
 • Set Copy - Readable Set List used for pasting into NotePad and external sources
 
+
+**Setlist Copy buttons for Setlist.fm**
+![Settings](/SetelistCopy.png)
+
