@@ -1,4 +1,4 @@
-# SetlistCopy
+# Setlist.fm - SetlistCopy Button
 Add Copy buttons to Setlist.fm
 
 • Song Copy - Used for spreadsheets (CSV delimited file)
