@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Setlist FM Clipboard
 // @namespace    http://tampermonkey.net/
-// @version      2025-02-13
+// @version      2025-03-28
 // @description  Put Setlist Information to Clipboard
 // @author       Jerry Garcia
 // @match        https://www.setlist.fm/setlist/*
@@ -12,7 +12,7 @@
 var Init = false;
 var CRLF = String.fromCharCode(13,10);
 let FullString = "",TheDate = "",TheDate2 = "";
-let TheBand = "",TheVenue = "",section = "";
+let TheBand = "",TheVenue = [],section = "",TheVenueStr='';
 
 function GetValue(InTag) {
 
@@ -31,12 +31,11 @@ function GetHeader() {
 
     TheDate = dd + "-" + mm + "-" + yy;TheDate2 = yy + '-' + mm + '-' + dd;
     TheBand = myArray[2];
-    TheVenue = myArray[3];
     TheBand = TheBand.replace(" Setlist", "");
-    TheVenue = TheVenue.replace("at ", "");
-    TheVenue = TheVenue.replace(", USA", "");
     TheBand = TheBand.trim();
-    TheVenue = TheVenue.trim();
+
+    TheVenueStr = myArray[3];
+    TheVenue = TheVenueStr.split(',');
 }
 
 function GetDetail(WithSets) {
@@ -44,7 +43,7 @@ function GetDetail(WithSets) {
     let count = 0;
     section = "";
 
-    if(WithSets == 1) { FullString = TheDate2 + " " + TheBand + CRLF + TheVenue + CRLF + CRLF;}
+    if(WithSets == 1) { FullString = TheDate2 + " " + TheBand + CRLF + TheVenueStr + CRLF + CRLF;}
 
     let lis=document.querySelectorAll('li.setlistParts');
     if(lis == null) {
@@ -73,7 +72,7 @@ function GetDetail(WithSets) {
                     FullString = FullString + " • " + SongName.trim() + " " + InfoPart.trim() + CRLF;
                     count+=1;
                 } else {
-                    FullString = FullString + TheDate + ',' + TheBand + ',' + TheVenue + ',"' + SongName + '",' + section + CRLF;
+                    FullString = FullString + TheDate + ',"' + TheBand + '","' + TheVenue[0].slice(3) + '",' + TheVenue[1] + ',' + TheVenue[2] + ',"' + SongName + '",' + section + CRLF;
                     count+=1;
                 }
             }
@@ -127,16 +126,12 @@ function CustomSetClipboard(WithSets,inDesc) {
                 newButton.textContent = 'Song Copy';
                 newButton.style = buttonStyle;
                 c_button.after(newButton);
-                newButton.addEventListener('click', () => {
-                    CustomSetClipboard(0,'Songs');
-                });
+                newButton.addEventListener('click', () => { CustomSetClipboard(0,'Songs');});
                 const newButton2 = document.createElement('button');
                 newButton2.textContent = 'Set Copy';
                 newButton2.style = buttonStyle + "padding-left: 10px; padding-right: 8px;"
                 c_button.after(newButton2);
-                newButton2.addEventListener('click', () => {
-                    CustomSetClipboard(1,'Sets');
-                });
+                newButton2.addEventListener('click', () => { CustomSetClipboard(1,'Sets'); });
             }
         }
     },250);
